@@ -1,23 +1,25 @@
 package com.example.lex.firstapp;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 public class display1 extends AppCompatActivity {
+
+    public static final String PREFS_NAME = "MyPreferenceData";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display1);
-        String username = getIntent().getStringExtra("Username");
         TextView tv = (TextView)findViewById(R.id.TVusername);
-        tv.setText(username);
+        TextView av = (TextView)findViewById(R.id.TVage);
 
-//        String age = getIntent().getStringExtra("Age");
-//        TextView av = (TextView)findViewById(R.id.TVage);
-//        tv.setText(age);
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 2);
+
+        tv.setText(settings.getString("Username", "No name"));
+        av.setText(settings.getString("Age", "No age"));
+
     }
 }

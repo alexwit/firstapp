@@ -1,17 +1,14 @@
 package com.example.lex.firstapp;
 
 import android.content.Intent;
-import android.widget.EditText;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 
 public class memory_game extends AppCompatActivity {
 
@@ -19,58 +16,49 @@ public class memory_game extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory_game);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
-
-    public void mouseClick(View view){
-
-     //   EditText b = (EditText)findViewById(R.id.TFage);
-        EditText a = (EditText)findViewById(R.id.TFusername);
-        String str = a.getText().toString();
-      //  String string = b.getText().toString();
-
-        Intent i = new Intent(memory_game.this, display1.class);
-       // Intent j = new Intent(memory_game.this, display1.class);
-        i.putExtra("Username", str);
-      //  j.putExtra("Age", string);
-        startActivity(i);
-       // startActivity(j);
-
-    }
-
-
-
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_memory_game, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            ScrollView scrollView = (ScrollView) findViewById(R.id.scrollview1);
+            scrollView.setEnabled(false);
         }
 
-        return super.onOptionsItemSelected(item);
+        Button buttoncheck = (Button) findViewById(R.id.btnCheck);
+        buttoncheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),display1.class);
+                startActivityForResult(intent,0);
+            }
+        });
+
     }
+
+    public static final String PREFS_NAME = "MyPreferenceData";
+
+    public void mouseClick(View view) {
+
+        EditText b = (EditText)findViewById(R.id.TFage);
+        EditText a = (EditText) findViewById(R.id.TFusername);
+        String str = a.getText().toString();
+        String string = b.getText().toString();
+
+        SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME,
+                this.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("Username", str);
+        editor.putString("Age", string);
+        editor.commit();
+
+
+        Intent i = new Intent(memory_game.this, display1.class);
+        startActivity(i);
+
+
+    }
+
+
 }
+
+
+
+

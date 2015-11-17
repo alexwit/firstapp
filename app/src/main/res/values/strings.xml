@@ -3,4 +3,5 @@
     <string name="action_settings">Settings</string>
     <string name="emptyString" />
     <string name="EmptyString" />
+    <string name="spoiler">your age is:</string>
 </resources>
